@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gramatyki bezkontekstowe | Generator i walidator poprawności słowa</title>
+</head>
+<body>
+  
+  <div class="info">
+    <h1>
+      Generator macierzy wypełnionych pseudolosowymi znakami gramatyki wybranej przez użytkownika oraz walidator nazwy
+      wprowadzanej przez użytkownika, czy mieści się w zakresie gramatyki wygenerowanej na podstawie wartości w polu
+      edycyjnym.
+    </h1><br>
+	  <h2>Główne założenia:</h2>
+    <ul>
+      <li>Znaki gramatyki mogą składać się z liter, cyfr oraz znaków specjalnych (domyślnie program przydziela pełny
+        alfabet ('abcdefghijklmnopqrstuvwxyz') oraz wszystkie znaki specjalne (`~!@#$%^&*()_-=+{}[];:'\"|,<.>/?), a
+        liczby i wielkie litery ustawione są na "true").</li>
+      <li>Pierwsza kolumna macierzy (pierwszy znak w wyrazie) nie może zawierać cyfry lub znaku specjalnego.</li>
+      <li>Ostatnia kolumna macierzy (ostatni znak w wyrazie) nie może zawierać znaku specjalnego.</li>
+      <li>Komputer z natury nie jest w stanie wygenerować uporządkowanego słowa, toteż rozwiązanie generowania słów
+        oparłem na pseudolosowej macierzy, w której każdy wiersz to jedno słowo składające się z wygenerowanych znaków
+        (generowanych na podstawie instrukcji podanych przez użytkownika).</li>
+    </ul>
+  </div>
+
+  <div class="matrix">
+    <div class="wrapper">
+      <h1>Macierz znaków gramatyki:</h1>
+    </div>
+    <div class="userInt">
+      <h1>Pole wprowadzania danych:</h1>
+        <label for="let" class="data">
+          Litery: <input type="text" class="rEgEx first" data-id="1">
+          <button class="cl">Wyczyść</button>
+          <button class="ret">Domyślnie</button>
+        </label>
+      <label for="spec" class="data">
+        Znaki specjalne: <input type="text" class="rEgEx second" data-id="2">
+        <button class="cl">Wyczyść</button>
+        <button class="ret">Domyślnie</button>
+      </label>
+      <div>
+        <div>Cyfry (0-9):<button class="bool">Włączone</button></div>
+        <div>Wielkie litery:<button class="bool ltt">Włączone</button></div>
+        <label for="columns" class="data">
+          Liczba wierszy: <input type="number" data-input="rows">
+        </label>
+          <label for="rows" class="data">
+            Liczba kolumn: <input type="number" data-input="cols" >
+          </label>
+        <label for="columns" class="data">
+          Ilość znaków specjalnych, które mogą znajdować się w jednym słowie (X < 0 = ∞). X:<input type="number" data-input="rows">
+        </label>
+      </div>
+      <button class="gen">Generuj losową macierz</button>
+      <h2></h2>
+    </div>
+  </div>
+
+  <div class="grammaCont">
+    <div class="grammaL">
+      <h1>Utworzoną gramatykę można zdefiniować jako:</h1>
+      <div>V<sub>1</sub> = <span>{</span><span class="gramma tr snh">abcdefghijklmnopqrstuvwxyz</span><span>}</span></div>
+      <div>V<sub>2</sub> = <span>{</span><span class="gramma tr snh">`~!@#$%^&*()_-=+{}[];:'\"|,<.>/?</span><span>}</span></div>
+      <div>V<sub>3</sub> = <span>{</span><span class="gramma tr snh">0123456789</span><span>}</span></div>
+      <div>V<sub>4</sub> = <span>{</span><span class="gramma tr snh">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span><span>}</span></div><br>
+      <div>G<sub>1</sub> = <strong>⟨<i> N, T, P, S </i>⟩</strong>, gdzie <strong>S ∈ N</strong>,
+        <strong>P = X::=ω</strong>, gdzie <strong>X ∈ N</strong>, a <strong>ω ∈ (N ∪ T)*</strong></div>
+      <div>G<sub>1</sub> = <span>⟨ </span>{S}, {V<sub>1</sub> + V<sub>2</sub> + V<sub>3</sub> + V<sub>4</sub>},
+        {<i>S</i>::=ε, <i>S</i>::=(V<sub>1</sub> + V<sub>2</sub>)<i>S</i>(V<sub>1</sub> + V<sub>2</sub> +
+        V<sub>3</sub>)}, <i>S</i> <span>⟩</span></div>
+    </div>
+    <div class="grammaR">
+      <h1>Gdzie odpowiednio:</h1>
+      <ul>
+        <li><strong><i>N</i></strong> - skończony i rozłączny zbiór symboli nieterminalnych</li>
+        <li><strong><i>T</i></strong> - skończony i rozłączny zbiór symboli terminalnych</li>
+        <li><strong><i>P</i></strong> - produkcje</li>
+        <li><strong><i>S</i></strong> - aksjomat gramatyki (symbol pomocniczy)</li>
+      </ul>
+    </div>
+  </div>
+
+	<div class="alph">
+		<div class="alphJS"></div>
+		<div class="insertContent">
+			<div class="leftCont">
+				<button class="doIt">Wykonanie krok po kroku</button>
+				<button class="doIt">Wykonanie natychmiastowe</button>
+			</div>
+        <div class="centerCont">
+          <label for="input" class="data">
+            Wprowadź swoje słowo: <input type="text" class="genrt" data-val="in">
+          </label>
+          <label for="output">
+            Słowo przetworzone: <input type="text" class="genrt" data-val="out" readonly>
+          </label>
+        </div>
+			<div class="rightCont">
+				<button class="cl">Wyczyść pole</button>
+				<button class="ret">Domyślna wartość</button>
+				<button disabled class="res">Reset</button>
+			</div>
+		</div>
+		<h1></h1>
+	</div>
+
+  <div class="info">
+    <h2>Użytkownik może edytować:</h2>
+    <ul>
+      <li>Litery alfabetu oraz znaki specjalne.</li>
+      <li>Liczbę wierszy lub kolumn w generowanej macierzy (przy czym: k > 0 && w > 0, gdzie k - liczba kolumn, w -
+        liczba wierszy).</li>
+      <li>Ilość znaków specjalnych jakie może posiadać jedno słowo.</li>
+      <li>Napis, który ma być sprawdzony przez program pod kątem aktualnie wygenerowanej gramatyki.</li>
+    </ul>
+    <h2>Zabezpieczenia programu:</h2>
+    <ul>
+      <li>Jeśli pole edycyjne liter alfabetu i pole edycyjne znaków specjalnych będą jednocześnie puste oraz
+        przełącznik liczb będzie ustawiony na "false", program wygeneruje macierz, ale nie nastąpi sprawdzenie
+        wartości; pojawi się błąd.</li>
+      <li>Program nie pozwoli wygenerować macierzy, kiedy liczba wierszy i/lub liczba kolumn będzie wynosiła zero.
+      </li>
+      <li>Pola do wpisywania liter oraz znaków specjalnych są zabezpieczone przez technologię "Regex". Program nie
+        pozwoli wpisać do pola liter znaku specjalnego, cyfry bądź dużej litery (takowe są generowane przez
+        program). Analogicznie program do pola zawierającego znaki specjalne pozwoli wpisać wszysko za wyjątkiem
+        liter (w tym wielkich) oraz cyfr. Cyfry są generowane automatycznie przez program.</li>
+      <li>Jeśli w ciągu znaków podawanych przez użytkownika, znaki będa się powtarzać, program przy generowaniu
+        macierzy usunie zbędne znaki i zaktualizuje wartość pola w celu uniknięcia zakłamań pseudolosowości
+        generowania znaków w macierzy.</li>
+      <li>Ilość znaków specjalnych może być większa niż liczba kolumn macierzy (odpowiadająca ilości znaków w słowie),
+        lecz nie wpłynie to na generowaną macierz; będzie miało wpływ jednynie na ciąg znaków w walidatorze.</li>
+    </ul>
+    <h2>Informacje dodatkowe:</h2>
+    <ul>
+      <li>Logika programu napisana w całości w czystym JavaScript zgodnym ze standardem EcmaScript6.</li>
+      <li>Do weryfikacji pól formularza użyłem konstruktora "RegExp", którzy zawiera metody umożliwiające pracę z
+        technologią "RegEx" w języku JavaScript (main.js, linia 137).</li>
+      <li>Do walidatora ciągu znaków alfabetu użyłem zaprojektowanego przeze mnie algorytmu rekurencyjnego (main.js,
+        linia 466).</li>
+      <li>Wszyskie dane które podlegają obróbce przez program są zapisywane i odczytywane z kopii objektu domyślnego w
+        celu hermetyzacji i ochrony danych domyślnych. Po przeładowaniu strony dane wprowadzone przez użytkownika są
+        usuwane. Do stworzenia identycznej kopii objektu użyłem konstroktora "JSON" i odpowiadajcym mu metodom.</li>
+      <li>Kod źródłowy oraz szczegółowy opis działania programu znajdziesz na moim profilu Github: <a target="_blank"
+          href="https://github.com/Milosz08">github.com/Milosz08</a>.</li>
+    </ul>
+  </div>
+
+  <script src="js/objStruct.js"></script>
+  <script src="js/inpEvents.js"></script>
+  <script src="js/btnEvents.js"></script>
+  <script src="js/matrixGen.js"></script>
+  <script src="js/grammValid.js"></script>
+</body>
+</html>
