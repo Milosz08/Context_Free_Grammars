@@ -19,108 +19,178 @@
  * - ostatnia kolumna macierzy (ostatni znak słowa) nie może kończyć się znakiem specjalnym,
  */
 
-const letArrObj = [
-  { name: 'charsRegex', value: 'abcdefghijklmnopqrstuvwxyz' }, //litery
-  { name: 'specRegex', value: "`~!@#$%^&*()_-=+{}[];:'\\\"|,<.>/\?" }, //znaki specjalne
-];
+//walidator słowa
+const validateArr = () => {
+  let ifHasSpec = ''; //znaki specjalne z wprowadzonego słowa
 
-const boolArrObj = [
-  { name: 'ifNumb', value: true }, //czy cyfry
-  { name: 'ifBigLett', value: true }, //czy wielkie litery
-];
+  let spansArr = [];
+  FunctObj.createAlphabet();
+  const allSpans = [...document.querySelectorAll('.alphJS span')];
 
-const staticArrObj = [
-  { name: 'rows', value: 15 }, //liczba kolumn
-  { name: 'cols', value: 15 }, //liczba wierszy
-  { name: 'ifSpecialChars', value: -1 }, //ilość znaków specjalnych, które może mieć słowo
-  { name: 'exmpRegex', value: 'x?zadanie5' }, //przykładowa wartość
-];
-
-const DOMelmObj = {
-  labels: [...document.querySelectorAll('label.data')],
-  globalObj: [...letArrObj, ...staticArrObj],
-  rEgEx: [...document.querySelectorAll('.rEgEx')],
-  clearBtns: [...document.querySelectorAll('button.ret, button.cl')],
-  boolBtns: [...document.querySelectorAll('button.bool')],
-  genBtn: document.querySelector('button.gen'),
-  inputs: [...document.querySelectorAll('input')],
-  defVal: [...document.querySelectorAll('input, button:not(.gen)')],
-  genrtBtns: [...document.querySelectorAll('.insertContent button')],
-  disBtns: [...document.querySelectorAll('.insertContent button.doIt')],
-  leftGenBtns: [...document.querySelectorAll('.leftCont button')],
-  inpIO: [...document.querySelectorAll('input.genrt')],
-  errorP: document.querySelector('.alph h1'),
-  inputGraph: [...document.querySelectorAll('.gramma.tr')],
-  h2Err: document.querySelector('.userInt h2'),
-  allBtnNr: [...document.querySelectorAll('.rightCont button:not(:nth-last-of-type(1))')],
-};
-
-const FunctObj = {
-
-  //usuwa zduplikowane znaki i aktualizuje input
-  removeChars: (string, input = '') => {
-    string = string.split('').filter((item, pos, self) => {
-      return self.indexOf(item) == pos;
-    }).join('');
-    !!input ? input.value = string : null;
-    return string;
-  },
-
-  //kopiowanie zawartości objektu z danymi i przekazanie jej do zmiennej (okres życia - przeładowanie strony)
-  copyObjects: (flag = true) => {
-    const objArr = [DOMelmObj.globalObj, boolArrObj];
-    const copyObjArr = [];
-    objArr.forEach(obj => copyObjArr.push(JSON.parse(JSON.stringify(obj))));
-    return flag ? copyObjArr[0] : copyObjArr[1];
-  },
-
-  //dynamiczne wstawianie tekstu do elementu drzewa DOM
-  insert: (elm, content = '', i = 0) => {
-    const ins = document.querySelectorAll(elm)[i];
-    ins.textContent = content;
-  },
-
-  //dynamiczne renderowanie wybranego elementu drzewa DOM
-  render: (type, parent, i = 0) => {
-    const parentEl = document.querySelectorAll(parent)[i];
-    const el = document.createElement(type);
-    parentEl.appendChild(el);
-  },
-
-  //dynamiczne wstawianie elementów span (zawartości wszystkich znaków) do kontenera
-  createAlphabet: () => {
-    const allSigns = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()_-=+{}[];:'\"\\|,<.>/?ε";
-    for (let i = 0; i < allSigns.length; i++) {
-      FunctObj.render('span', '.alphJS');
-      FunctObj.insert('.alphJS span', allSigns[i], i);
+  //generowanie całego alfabetu w formie stringa (zależne od wartości wprowadzonych przez użytkownika)
+  const fullSignsArray = () => {
+    let fullString = '';
+    for (let i = 0; i < copyObj.length; i++) {
+      !(i > 1 && i < 6) ? fullString += copyObj[i].value : ''; //oprócz kol, wier, ilości znaków spec i wart wprowadzonej
     }
-  },
+    copyBoolObj[0].value ? fullString += FunctObj.generateNumber() : '';
+    copyBoolObj[1].value ? fullString += copyObj[0].value.toUpperCase() : '';
+    return fullString;
+  }
 
-  //generacja cyfr (0-9)
-  generateNumber: () => {
-    const nrArr = [];
-    for (let i = 0; i < 10; i++) nrArr.push(i);
-    return nrArr.toString().split(',').join('');
-  },
-
-  //konwersja łańcucha stringów na tablicę i dodawanie pustego znaku
-  convert: str => {
-    const arr = [];
-    for (let i = 0; i < str.length; i++) arr.push(str[i]);
-    return arr.join('');
-  },
-
-  //wiadomość informująca o więszej ilości znaków specjalnych niż długość jednej linii macierzy (słowa)
-  validateSpecCount: () => {
-    if (copyObj[4].value > copyObj[3].value) {
-      DOMelmObj.h2Err.style.color = 'orange';
-      FunctObj.insert(
-        '.userInt h2',
-        'Uwaga! Macierz wygeneruje się poprawnie, lecz wartość wpłynie jedynie na większą ilość znaków specjalnych w walidatorze.'
-      );
+  //obsługa przycisku "reset" (m. in. normalizacja i przywrócenie styli)
+  const resetBtn = e => {
+    const arrClean = [spansArr, ifHasSpec];
+    arrClean.forEach(arr => arr = []); //czyszczenie tablic
+    allSpans.forEach(el => el.className = '');
+    ifHasSpec = ''; //czyszczenie znaków specjalnych wprowadzanego słowa
+    DOMelmObj.errorP.style.display = 'none';
+    preserve('', true, true);
+    e.target.disabled = true; //zablokowanie przycisku "reset"
+    DOMelmObj.allBtnNr.forEach(el => el.disabled = false); //odblokowanie wyczyść i domyślna (pole)
+    for (let i = 0; i < 4; i++) {
+      if (i >= 3 && i === 5) {
+        DOMelmObj.genrtBtns[i].disabled = false;
+      } else if (i === 1) {
+        const arr = [DOMelmObj.inpIO[0], DOMelmObj.inpIO[1]];
+        for (let j = 0; j < arr.length; j++) {
+          arr[j].value = ''; //zerowanie pól formularzy i kopii objektu głównego
+        }
+        DOMelmObj.inpIO[i].style.color = '';
+      }
     }
-  },
-};
+  }
 
-const copyObj = FunctObj.copyObjects(); //kopia obiektu (string)
-const copyBoolObj = FunctObj.copyObjects(false); //kopia obiektu (boolean)
+  //blokowanie/odblokowywanie przycisków (jeśli toggle == false(def) -> blokada, jeśli toggle == true -> odblokowanie)
+  const preserve = (e, flag = false, toggle = false) => {
+    const instIf = value => {
+      !!value
+        ? DOMelmObj.disBtns.forEach(btn => btn.disabled = !toggle ? false : true)
+        : DOMelmObj.disBtns.forEach(btn => btn.disabled = !toggle ? true : false);
+    }
+    !flag ? instIf(e.target.value !== '') : instIf(flag);
+  }
+
+  //walidacja oraz generacja ciągu znaków na podstawie alfabetu stworzonego przez użytkownika
+  const doInOneMove = choose => {
+    const allSpans = [...document.querySelectorAll('.alphJS span')];
+    preserve('', true, true); //odblokowanie przycisków
+    document.querySelectorAll('.rightCont button').forEach(el => el.disabled = true); //zablokowanie wyczyść i domyślna (pole)
+    let iterator = 0;
+    let flag;
+    let stringI = DOMelmObj.inpIO[0].value;
+
+    //wiadomość błędu
+    const errorMess = (char, allSpans, textValue) => {
+      DOMelmObj.genrtBtns[4].disabled = false;
+      DOMelmObj.inpIO[1].style.color = 'red';
+      DOMelmObj.errorP.style.display = 'block';
+      FunctObj.insert('.alph h1', textValue);
+      document.querySelector('.alph h1').style.color = 'red';
+      letterSelector(char, allSpans).classList.add('alert');
+      flag = false;
+    }
+
+    //wiadomość o pozytywnym wygenerowaniu ciągu
+    const successMess = () => {
+      const arr = [DOMelmObj.inpIO[1], DOMelmObj.errorP];
+      spansArr.forEach(el => el.classList.add('active'));
+      spansArr.forEach(el => el.classList.add('good'));
+      arr.forEach(el => el.style.color = 'green');
+      DOMelmObj.errorP.style.display = 'block';
+      FunctObj.insert('.alph h1', 'Powodzenie! Wprowadzony przez Ciebie ciąg spełnia zasady stworzonej przez Ciebie gramatyki!');
+      DOMelmObj.genrtBtns[4].disabled = false;
+    }
+
+    //sprawdzenie, czy znak należy do alfabetu (zwrócenie aktualnie obsługiwanego znaku)
+    const letterSelector = (letter, allSpans) => {
+      for (let i = 0; i < allSpans.length; i++) {
+        if (allSpans[i].textContent === letter) {
+          allSpans[i].classList.add('active');
+          return allSpans[i];
+        }
+      }
+    }
+
+    //algorytm rekurencyjny sprawdzający każdy znak wyrazu wpisanego przez użytkownika
+    const recursion = () => {
+      const char = copyObj[5].value[iterator];
+
+      spansArr.push(letterSelector(char, allSpans)); //odkładanie elementu span do obiektu tablicy
+      allSpans.forEach(el => el.className = '');
+      stringI = stringI.substring(1, copyObj[5].value.length); //wycinanie znaku z input IN
+      letterSelector(char, allSpans);
+
+      DOMelmObj.inpIO[0].value = stringI;
+      DOMelmObj.inpIO[1].value += char;
+
+      if (copyObj[4].value > -1) { //dodawanie znaków specjalnych do stringa
+        copyObj[1].value.includes(char) ? ifHasSpec += char : ifHasSpec += '';
+      }
+
+      if (!fullSignsArray().includes(char)) { //jeśli ciąg nie zawiera składowych gramatyki; jeśli tak -> end
+        errorMess(
+          char, allSpans,
+          'Błąd! Ten znak nie występuje w stworzonej przez Ciebie gramatyce!'
+        );
+        return null;
+      } else if (iterator === 0) { //czy 1 znak to liczba lub znak specjalny; jeśli tak -> end
+        if (FunctObj.generateNumber().includes(char) || copyObj[1].value.includes(char)) {
+          errorMess(
+            char, allSpans,
+            'Błąd! Pierwszy znak nie może być liczbą lub znakiem specjalnym!'
+          );
+          return null;
+        }
+      } else if (iterator === copyObj[5].value.length - 1) {
+        if (copyObj[1].value.includes(char)) { //czy ostatni znak to znak specjalny; jeśli tak -> end
+          errorMess(
+            char, allSpans,
+            'Błąd! Ostatni znak nie może być znakiem specjalnym!'
+          );
+          return null;
+        }
+      } else if ((ifHasSpec.length > copyObj[4].value) && copyObj[4].value !== -1) { //jeśli w ciągu występuje za dużo znaków specjalnych; jeśli tak -> end
+        errorMess(
+          char, allSpans,
+          `Błąd! Według zasad tej gramatyki słowo nie może zawierać ${copyObj[4].value === 0 ? 'znaków specjalnych!' : 'więcej niż ' + copyObj[4].value} ${copyObj[4].value > 0 ? 'znaków specjalnych!' : ''}`
+        );
+        return null;
+      }
+
+      iterator++;
+      if (iterator !== copyObj[5].value.length) { //rekurencja (wykonuje się tyle razy ile ciąg posiada znaków)
+        switch (choose) {
+          case false: setTimeout(recursion, 200); break; //jeden ruch
+          case true: recursion(); break; //błyskawicznie
+        }
+      } else { //koniec rekurencji
+        flag = true;
+        return null;
+      }
+    }
+
+    recursion();
+    setTimeout(() => flag ? successMess() : null, 200 * (DOMelmObj.inpIO[0].value.length + 1) + 150); //wiadomość sukces
+  }
+
+  //obłsuga przycisków sterujących
+  const btnsIO = e => {
+    const selector = e.target.textContent;
+    let switcher = false;
+    if (selector.includes('Wykonanie')) {
+      if (selector.includes('krok')) switcher = false; //jeden ruch
+      else if (selector.includes('natychmiastowe')) switcher = true; //błyskawicznie
+      doInOneMove(switcher);
+    } else if (selector === 'Reset') { //reset
+      resetBtn(e);
+    } else if (selector === 'Domyślna wartość') { //domyślnie
+      preserve('', true);
+    } else if (selector === 'Wyczyść pole') { //czyszczenie inputu IN
+      preserve('', true, true);
+    }
+  }
+
+  DOMelmObj.inpIO[0].addEventListener('input', preserve);
+  DOMelmObj.genrtBtns.forEach(btn => btn.addEventListener('click', btnsIO));
+}
