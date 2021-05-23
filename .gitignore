@@ -1,2 +1,2 @@
 #ignore .css.map file from scss compiler
-index.html
+style.min.css.map
