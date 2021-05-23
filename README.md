@@ -1,3 +1,3 @@
 ## Gramatyki bezkontekstowe
 
-To jest opis
+To jest opis gramatyk
