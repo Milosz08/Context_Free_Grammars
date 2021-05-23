@@ -29,7 +29,7 @@ Kolorem cyjanowy w tej macierzy zaznaczyłem jeden ciąg gramatyki (jedno słowo
 ![img3](https://user-images.githubusercontent.com/61552854/119265108-d4618d80-bbe5-11eb-8f9c-0abd5a704add.png)
 
 ### Walidator wyposażyłem w dwie sekcje: 
-- Sekcję indykacjyjną (kolor fioletowy) wskazującą aktualnie obsługiwany znak.
+- Sekcję indykacyjną (kolor fioletowy) wskazującą aktualnie obsługiwany znak.
 - Sekcję wprowadzającą (kolor zielony) dzielącą się na:
   - sterowanie procesem
   - pole do wprowadzania i pole z otrzymywanym przetworzonym ciągiem
