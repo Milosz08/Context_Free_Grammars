@@ -1,0 +1,218 @@
+* {
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 0 auto;
+  min-width: 80vw;
+}
+
+button { //wszystkie przyciski
+  padding: 0 7px;
+  cursor: pointer;
+  &:disabled { //nieaktywne
+    cursor: not-allowed;
+  }
+}
+
+.info { //elementy statycznego tekstu informacyjnego
+  display: block;
+  margin: 100px auto 50px auto;
+  max-width: 1200px;
+  h1 {
+    font-size: 1.2rem;
+    @include textPos(center);
+    margin-bottom: 50px;
+  }
+  ul {
+    margin: 10px 0 20px 40px;
+    li {
+      margin: 5px 0;
+    }
+  }
+  h2, li, a {
+    font-size: 1rem;
+  }
+}
+
+.matrix { //macierz znaków gramatyki
+  @include flexBoxProp(center, center, row, auto);
+  min-height: 800px;
+  margin: 60px 0;
+  .wrapper, .userInt {
+    margin: 0 80px;
+  }
+  ul {
+    @include flexBoxProp(auto, center, column, auto);
+    li {
+      list-style-type: none;
+    }
+  }
+  span {
+    display: inline-block;
+    @include rectangleShaped(50px, 35px);
+    @include textPos(center);
+  }
+  h2 {
+    margin-top: 50px;
+    color: $error_c;
+  }
+  button {
+    margin: 5px 5px 0 0;
+  }
+}
+
+.userInt { //wprowadzanie danych przez użytkownika
+  width: 350px;
+  label {
+    margin: 20px 0;
+    @include flexBoxProp(auto, auto, auto, wrap);
+    width: 100%;
+    input {
+      flex-basis: 100%;
+    }
+  }
+  div {
+    label {
+      display: block;
+      &:nth-of-type(1) {
+        margin: 20px 0 0 0;
+      }
+      &:nth-last-of-type(1) {
+        margin: 0 0 20px 0;
+      }
+      input {
+        display: inline-block;
+        width: 70px;
+      }
+    }
+  }
+}
+
+.alph { //walidator wprowadzanego ciągu (struktura)
+  width: 100%;
+  height: auto;
+  background-color: $lightGray_c;
+  padding-bottom: 50px;
+  position: relative;
+  &::before {
+    @include afterPseudoElm(
+      'Walidator ciągu zgodny z wygenerowaną gramatyką', 
+      -25px, 50%, auto, translateX(-50%)
+    );
+    background-color: $black_c;
+    color: $white_c;
+    padding: 10px;
+  }
+  .alphJS {
+    @include flexBoxProp(center, auto, auto, wrap);
+    margin: 0 100px;
+    padding: 50px 0;
+    span {
+      @include flexBoxProp(center, center, auto, auto);
+      font-size: 1.5rem;
+      @include rectangleShaped(50px, 50px);
+      margin: 15px;
+      line-height: 50px;
+    }
+  }
+  h1 {
+    display: none;
+    @include textPos(center);
+    margin-top: 50px;
+  }
+}
+
+.insertContent { //walidator wprowadzanego ciągu (wprowadzanie treści)
+  @include flexBoxProp(center, auto, auto, auto);
+  width: 100%;
+  margin: 0 auto;
+  .leftCont *, .centerCont *, .rightCont * {
+    display: block;
+    margin: 5px 0;
+  }
+  .leftCont, .centerCont, .rightCont {
+    margin: 0 50px;
+  }
+  .centerCont {
+    label {
+      @include textPos(center);
+      input {
+        font-size: 1.5rem;
+        display: inline;
+      }
+    }
+  }
+}
+
+.active { //zaznaczenie obsługiwanego znaku (JS)
+  box-sizing: border-box;
+  border: 3px solid $lightGray_c;
+  box-shadow: 0 0 0 3px $black_c;
+  font-weight: bold;
+  background-color: $black_c;
+  color: $lightGray_c;
+  position: relative;
+  &::after {
+    @include afterPseudoElm('', auto, 50%, -14px, translateX(-50%));
+    width: 0;
+    height: 0;
+    @include triangleShaped();
+  }
+}
+
+.alert { //źle
+  @include alertContent($error_c);
+}
+
+.good { //dobrze
+  @include alertContent($good_c);
+}
+
+.grammaCont { //informacja o aktualnie wygenerowanym alfabecie
+  @include flexBoxProp(center, auto, row, auto);
+  margin: 100px 0;
+  .grammaL, .grammaR {
+    margin: 0 50px;
+  }
+  .grammaL {
+    div {
+      span {
+        display: inline-block;
+      }
+      &:not(:nth-last-of-type(1)) {
+        span:not(.gramma) {
+          font-weight: normal;
+          font-size: 1.8rem;
+        }
+      }
+    }
+    span.snh {
+      font-size: 1.2rem;
+      padding: 0 5px;
+      transform: translateY(-3px);
+    }
+  }
+  h1 {
+    margin-bottom: 1rem;
+  }
+}
+
+input { //usunięcie z inputu liczbowego strzałek
+  &::-webkit-outer-spin-button, &::-webkit-inner-spin-button { //dla chromium
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &[type='number'] { //dla moz
+    -moz-appearance: textfield;
+  }
+}
+
+.matrix, .gramma { //style dla nagłówków
+  h1 {
+    margin-bottom: 1.5rem;
+  }
+}
