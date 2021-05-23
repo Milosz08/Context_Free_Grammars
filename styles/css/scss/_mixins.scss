@@ -1,0 +1,36 @@
+@mixin flexBoxProp($xAxis, $yAxis, $dir, $wrap) { //właściwości flexbox
+  display: flex;
+  align-items: $yAxis;
+  justify-content: $xAxis;
+  flex-direction: $dir;
+  flex-wrap: $wrap;
+}
+
+@mixin textPos($pos) { //pozycja tekstu
+  text-align: $pos;
+}
+
+@mixin rectangleShaped($x_s, $y_s) { //wielkość prostokąta
+  width: $x_s;
+  height: $y_s;
+}
+
+@mixin triangleShaped() { //trójkąt - przy ::after
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 20px solid $gray_c;
+}
+
+@mixin alertContent($color) { //alert (dodawane do klasy active)
+  background-color: $color;
+  box-shadow: 0 0 0 3px $color;
+}
+
+@mixin afterPseudoElm($_cont, $_top, $_left, $_bottom, $_transform) { //pseudoelementy ::after
+  position: absolute;
+  content: $_cont;
+  top: $_top;
+  left: $_left;
+  bottom: $_bottom;
+  transform: $_transform;
+}
