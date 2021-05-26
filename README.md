@@ -47,7 +47,7 @@ Użytkownik może zdecydować, czy proces ma przebiegać krok po kroku (znak po 
 Program na licencji MIT. Jeśli nie znasz jej warunków, przeczytaj [ten artykuł](https://en.wikipedia.org/wiki/MIT_License)
 
 # Informacje dodatkowe
-* Logika programu napisana w całości w czystym JavaScript zgodnym ze standardem EcmaScript6.
+* Logika programu napisana w całości w czystym JavaScript zgodnym ze standardem EcmaScript6 z użyciem obiektów.
 * Do weryfikacji pól formularza użyłem konstruktora "RegExp", którzy zawiera metody umożliwiające pracę z technologią "RegEx" w języku JavaScript.
 * Do walidatora ciągu znaków alfabetu użyłem zaprojektowanego przeze mnie algorytmu rekurencyjnego.
 * Wszyskie dane które podlegają obróbce przez program są zapisywane i odczytywane z kopii objektu domyślnego w celu hermetyzacji i ochrony danych domyślnych. Po przeładowaniu strony dane wprowadzone przez użytkownika są usuwane. Do stworzenia identycznej kopii objektu użyłem konstroktora "JSON" i odpowiadajcym mu metodom.
