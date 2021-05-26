@@ -40,8 +40,7 @@ const validateArr = () => {
 
   //obsługa przycisku "reset" (m. in. normalizacja i przywrócenie styli)
   const resetBtn = e => {
-    const arrClean = [spansArr, ifHasSpec];
-    arrClean.forEach(arr => arr = []); //czyszczenie tablic
+    spansArr = []; //czyszczenie tablicy
     allSpans.forEach(el => el.className = '');
     ifHasSpec = ''; //czyszczenie znaków specjalnych wprowadzanego słowa
     DOMelmObj.errorP.style.display = 'none';
