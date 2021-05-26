@@ -65,12 +65,17 @@ const grammarArr = () => {
 
     //walidacja danych wprowadzonych przez użytkownika (jeśli błąd - zwraca null object - koniec działania)
     checkValues: () => {
+      console.log(copyObj[2].value.toString());
       if (copyObj[0].value === '' && copyObj[1].value === '' && !copyBoolObj[0].value) {
         DOMelmObj.h2Err.style.color = 'orange';
         FunctObj.insert('.userInt h2', 'Uwaga! Wygenerowana macierz nie zawiera żadnych znaków!');
         return null;
       } else if (copyObj[2].value <= 0 || copyObj[3].value <= 0) {
         FunctObj.insert('.userInt h2', '\nBłąd! Próba wygenerowania macierzy na podstawie liczby mniejszej lub równej zero!');
+        DOMelmObj.h2Err.style.color = 'red';
+        return null;
+      } else if(isNaN(parseFloat(copyObj[2].value)) || isNaN(parseFloat(copyObj[3].value))) {
+        FunctObj.insert('.userInt h2', '\nBłąd! Próba wygenerowania macierzy na podstawie pustych pól edycyjnych!');
         DOMelmObj.h2Err.style.color = 'red';
         return null;
       }
