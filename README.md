@@ -1,4 +1,4 @@
-# Gramatyki
+# Gramatyki Bezkontekstowe
 
 ### Generator macierzy wypełnionych pseudolosowymi znakami gramatyki wybranej przez użytkownika oraz walidator nazwy wprowadzanej przez użytkownika, czy mieści się w zakresie gramatyki wygenerowanej na podstawie wartości w polu edycyjnym.
 
