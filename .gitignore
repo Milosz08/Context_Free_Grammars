@@ -1,2 +1,6 @@
 #ignore .css.map file from scss compiler
 styles/css/style.min.css.map
+
+#ignore code editors files
+.idea/*
+.vscode/*
