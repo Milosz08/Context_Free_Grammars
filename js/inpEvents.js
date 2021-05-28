@@ -46,7 +46,7 @@ const inputsEvents = () => {
 
   //wstawianie wartości pisanych przez użytkownika z inputu do kopii objektu
   const inputsListener = (i, e) => {
-    if (e.target.value != '' && i !== 4 && i !== 5) {
+    if (e.target.value !== '' && i !== 4 && i !== 5) {
       DOMelmObj.boolBtns[1].disabled = false;
       DOMelmObj.boolBtns[1].textContent = 'Włączone';
       copyBoolObj[1].value = true;
