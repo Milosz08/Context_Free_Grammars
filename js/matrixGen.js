@@ -68,14 +68,23 @@ const grammarArr = () => {
       console.log(copyObj[2].value.toString());
       if (copyObj[0].value === '' && copyObj[1].value === '' && !copyBoolObj[0].value) {
         DOMelmObj.h2Err.style.color = 'orange';
-        FunctObj.insert('.userInt h2', 'Uwaga! Wygenerowana macierz nie zawiera żadnych znaków!');
+        FunctObj.insert(
+          '.userInt h2', 
+          'Uwaga! Wygenerowana macierz nie zawiera żadnych znaków!'
+        );
         return null;
       } else if (copyObj[2].value <= 0 || copyObj[3].value <= 0) {
-        FunctObj.insert('.userInt h2', '\nBłąd! Próba wygenerowania macierzy na podstawie liczby mniejszej lub równej zero!');
+        FunctObj.insert(
+          '.userInt h2', 
+          '\nBłąd! Próba wygenerowania macierzy na podstawie liczby mniejszej lub równej zero!'
+        );
         DOMelmObj.h2Err.style.color = 'red';
         return null;
       } else if(isNaN(parseFloat(copyObj[2].value)) || isNaN(parseFloat(copyObj[3].value))) {
-        FunctObj.insert('.userInt h2', '\nBłąd! Próba wygenerowania macierzy na podstawie pustych pól edycyjnych!');
+        FunctObj.insert(
+          '.userInt h2', 
+          '\nBłąd! Próba wygenerowania macierzy na podstawie pustych pól edycyjnych!'
+        );
         DOMelmObj.h2Err.style.color = 'red';
         return null;
       }
@@ -114,13 +123,25 @@ const grammarArr = () => {
         for (let j = 0; j < copyObj[3].value; j++) {
           switch (j) {
             case 0: //pierwsza kolumna macierzy
-              LogicFuncObj.randProd(LogicFuncObj.getCharValue('charS', 'charL'), matrix); break;
+              LogicFuncObj.randProd(
+                LogicFuncObj.getCharValue('charS', 'charL'), 
+                matrix
+              ); break;
             case copyObj[3].value - 1: //ostatnia kolumna macierzy
-              LogicFuncObj.randProd(LogicFuncObj.getCharValue('charS', 'charL', 'number'), matrix); break;
+              LogicFuncObj.randProd(
+                LogicFuncObj.getCharValue('charS', 'charL', 'number'), 
+                matrix
+              ); break;
             default: //reszta kolumn
               !flag //jeśli false -> znaki specjalne, jeśli true -> bez znaków specjalnych
-                ? LogicFuncObj.randProd(LogicFuncObj.getCharValue('charS', 'charL', 'number', 'spec'), matrix)
-                : LogicFuncObj.randProd(LogicFuncObj.getCharValue('charS', 'charL', 'number'), matrix);
+                ? LogicFuncObj.randProd(
+                    LogicFuncObj.getCharValue('charS', 'charL', 'number', 'spec'), 
+                    matrix
+                  )
+                : LogicFuncObj.randProd(
+                    LogicFuncObj.getCharValue('charS', 'charL', 'number'), 
+                    matrix
+                  );
               break;
           }
           const sgn = matrix[j];
@@ -128,7 +149,11 @@ const grammarArr = () => {
           stack.length === copyObj[4].value ? flag = true : flag = false;
 
           FunctObj.render('span', '.matrix .wrapper ul > li', i);
-          FunctObj.insert(`.matrix .wrapper ul > li:nth-child(${i + 1}) span`, `${matrix[j]}`, j);
+          FunctObj.insert(
+            `.matrix .wrapper ul > li:nth-child(${i + 1}) span`, 
+            `${matrix[j]}`, 
+            j
+          );
         }
         flag = false;
         matrix = []; //zerowanie tablicy spanów
