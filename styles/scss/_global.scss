@@ -100,7 +100,7 @@ button { //wszystkie przyciski
   position: relative;
   &::before {
     @include afterPseudoElm(
-      'Walidator ciągu zgodny z wygenerowaną gramatyką', 
+      'Grammar word validator', 
       -25px, 50%, auto, translateX(-50%)
     );
     background-color: $black_c;
