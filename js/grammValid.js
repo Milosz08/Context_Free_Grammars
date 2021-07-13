@@ -191,5 +191,5 @@ const validateArr = () => {
   }
 
   DOMelmObj.inpIO[0].addEventListener('input', preserve);
-  //DOMelmObj.genrtBtns.forEach(btn => btn.addEventListener('click', btnsIO));
+  DOMelmObj.genrtBtns.forEach(btn => btn.addEventListener('click', btnsIO));
 }
