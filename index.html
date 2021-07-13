@@ -4,84 +4,87 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gramatyki | Generator i walidator poprawności słowa</title>
+  <title>Grammars | Word generator and validator</title>
   <link rel="stylesheet" href="styles/css/style.min.css">
 </head>
 <body>
   
   <div class="info">
     <h1>
-      Generator macierzy wypełnionych pseudolosowymi znakami gramatyki wybranej przez użytkownika oraz walidator nazwy
-      wprowadzanej przez użytkownika, czy mieści się w zakresie gramatyki wygenerowanej na podstawie wartości w polu
-      edycyjnym.
+      Matrix generator filled with pseudo-random characters of the user-selected grammar and validator of the 
+      user-entered name, whether it is within the range of the grammar generated from the value in the edit field.
     </h1><br>
-	  <h2>Główne założenia:</h2>
+	  <h2>Main assumptions:</h2>
     <ul>
-      <li>Znaki gramatyki mogą składać się z liter, cyfr oraz znaków specjalnych (domyślnie program przydziela pełny
-        alfabet ('abcdefghijklmnopqrstuvwxyz') oraz wszystkie znaki specjalne (`~!@#$%^&*()_-=+{}[];:'\"|,<.>/?), a
-        liczby i wielkie litery ustawione są na "true").</li>
-      <li>Pierwsza kolumna macierzy (pierwszy znak w wyrazie) nie może zawierać cyfry lub znaku specjalnego.</li>
-      <li>Ostatnia kolumna macierzy (ostatni znak w wyrazie) nie może zawierać znaku specjalnego.</li>
-      <li>Komputer z natury nie jest w stanie wygenerować uporządkowanego słowa, toteż rozwiązanie generowania słów
-        oparłem na pseudolosowej macierzy, w której każdy wiersz to jedno słowo składające się z wygenerowanych znaków
-        (generowanych na podstawie instrukcji podanych przez użytkownika).</li>
+      <li>
+        Grammar signs can consist of letters, numbers and special characters (by default, the program assigns the 
+        full alphabet ('abcdefghijklmnopqrstuvwxyz') and any special characters (`~!@#$%^&*()_-=+{}[];:'\"|,<.>/?), 
+        and numbers and capital letters are set to "true").
+      </li>
+      <li>The first column of the matrix (the first character in a word) cannot contain a digit or a special character.</li>
+      <li>The last column of the matrix (the last character in a word) cannot contain a special character.</li>
+      <li>
+        By nature, a computer is not able to generate an ordered word, so I based my word generation solution on a matrix 
+        filled with pseudo-randomly generated characters, where each line is one word consisting of generated characters 
+        (generated on the basis of user-provided instructions).
+      </li>
     </ul>
   </div>
 
   <div class="matrix">
     <div class="wrapper">
-      <h1>Macierz znaków gramatyki:</h1>
+      <h1>Matrix of grammar signs:</h1>
     </div>
     <div class="userInt">
-      <h1>Pole wprowadzania danych:</h1>
+      <h1>Input field:</h1>
         <label for="let" class="data">
-          Litery: <input type="text" class="rEgEx first" data-id="1">
-          <button class="cl">Wyczyść</button>
-          <button class="ret">Domyślnie</button>
+          Letters: <input type="text" class="rEgEx first" data-id="1">
+          <button class="cl">Clear</button>
+          <button class="ret">Default</button>
         </label>
       <label for="spec" class="data">
-        Znaki specjalne: <input type="text" class="rEgEx second" data-id="2">
-        <button class="cl">Wyczyść</button>
-        <button class="ret">Domyślnie</button>
+        Special characters: <input type="text" class="rEgEx second" data-id="2">
+        <button class="cl">Clear</button>
+        <button class="ret">Default</button>
       </label>
       <div>
-        <div>Cyfry (0-9):<button class="bool">Włączone</button></div>
-        <div>Wielkie litery:<button class="bool ltt">Włączone</button></div>
+        <div>Numbers (0-9):<button class="bool">Active</button></div>
+        <div>Big letters:<button class="bool ltt">Active</button></div>
         <label for="columns" class="data">
-          Liczba wierszy: <input type="number" data-input="rows">
+          Number of rows: <input type="number" data-input="rows">
         </label>
           <label for="rows" class="data">
-            Liczba kolumn: <input type="number" data-input="cols" >
+            Number of columns: <input type="number" data-input="cols" >
           </label>
         <label for="columns" class="data">
-          Ilość znaków specjalnych, które mogą znajdować się w jednym słowie (X < 0 = ∞). X:<input type="number" data-input="rows">
+          Number of special characters that can be in one word (X < 0 = ∞). X:<input type="number" data-input="rows">
         </label>
       </div>
-      <button class="gen">Generuj losową macierz</button>
+      <button class="gen">Generate random matrix</button>
       <h2></h2>
     </div>
   </div>
 
   <div class="grammaCont">
     <div class="grammaL">
-      <h1>Utworzoną gramatykę można zdefiniować jako:</h1>
+      <h1>The created grammar can be defined as:</h1>
       <div>V<sub>1</sub> = <span>{</span><span class="gramma tr snh">abcdefghijklmnopqrstuvwxyz</span><span>}</span></div>
       <div>V<sub>2</sub> = <span>{</span><span class="gramma tr snh">`~!@#$%^&*()_-=+{}[];:'\"|,<.>/?</span><span>}</span></div>
       <div>V<sub>3</sub> = <span>{</span><span class="gramma tr snh">0123456789</span><span>}</span></div>
       <div>V<sub>4</sub> = <span>{</span><span class="gramma tr snh">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span><span>}</span></div><br>
-      <div>G<sub>1</sub> = <strong>⟨<i> N, T, P, S </i>⟩</strong>, gdzie <strong>S ∈ N</strong>,
-        <strong>P = X::=ω</strong>, gdzie <strong>X ∈ N</strong>, a <strong>ω ∈ (N ∪ T)*</strong></div>
+      <div>G<sub>1</sub> = <strong>⟨<i> N, T, P, S </i>⟩</strong>, where <strong>S ∈ N</strong>,
+        <strong>P = X::=ω</strong>, where <strong>X ∈ N</strong>, a <strong>ω ∈ (N ∪ T)*</strong></div>
       <div>G<sub>1</sub> = <span>⟨ </span>{S}, {V<sub>1</sub> + V<sub>2</sub> + V<sub>3</sub> + V<sub>4</sub>},
         {<i>S</i>::=ε, <i>S</i>::=(V<sub>1</sub> + V<sub>2</sub>)<i>S</i>(V<sub>1</sub> + V<sub>2</sub> +
         V<sub>3</sub>)}, <i>S</i> <span>⟩</span></div>
     </div>
     <div class="grammaR">
-      <h1>Gdzie odpowiednio:</h1>
+      <h1>Where, respectively:</h1>
       <ul>
-        <li><strong><i>N</i></strong> - skończony i rozłączny zbiór symboli nieterminalnych</li>
-        <li><strong><i>T</i></strong> - skończony i rozłączny zbiór symboli terminalnych</li>
-        <li><strong><i>P</i></strong> - produkcje</li>
-        <li><strong><i>S</i></strong> - aksjomat gramatyki (symbol pomocniczy)</li>
+        <li><strong><i>N</i></strong> - finite and disjoint set of non-terminal symbols</li>
+        <li><strong><i>T</i></strong> - finite and disjoint collection of terminal symbols</li>
+        <li><strong><i>P</i></strong> - productions</li>
+        <li><strong><i>S</i></strong> - grammar axiom (auxiliary symbol)</li>
       </ul>
     </div>
   </div>
@@ -90,20 +93,20 @@
 		<div class="alphJS"></div>
 		<div class="insertContent">
 			<div class="leftCont">
-				<button class="doIt">Wykonanie krok po kroku</button>
-				<button class="doIt">Wykonanie natychmiastowe</button>
+				<button class="doIt">Do it step by step</button>
+				<button class="doIt">Do it immediately</button>
 			</div>
         <div class="centerCont">
           <label for="input" class="data">
-            Wprowadź swoje słowo: <input type="text" class="genrt" data-val="in">
+            Enter your word: <input type="text" class="genrt" data-val="in">
           </label>
           <label for="output">
-            Słowo przetworzone: <input type="text" class="genrt" data-val="out" readonly>
+            Processed word: <input type="text" class="genrt" data-val="out" readonly>
           </label>
         </div>
 			<div class="rightCont">
-				<button class="cl">Wyczyść pole</button>
-				<button class="ret">Domyślna wartość</button>
+				<button class="cl">Clear field</button>
+				<button class="ret">Default value</button>
 				<button disabled class="res">Reset</button>
 			</div>
 		</div>
@@ -111,43 +114,63 @@
 	</div>
 
   <div class="info">
-    <h2>Użytkownik może edytować:</h2>
+    <h2>User can edit:</h2>
     <ul>
-      <li>Litery alfabetu oraz znaki specjalne.</li>
-      <li>Liczbę wierszy lub kolumn w generowanej macierzy (przy czym: k > 0 && w > 0, gdzie k - liczba kolumn, w -
-        liczba wierszy).</li>
-      <li>Ilość znaków specjalnych jakie może posiadać jedno słowo.</li>
-      <li>Napis, który ma być sprawdzony przez program pod kątem aktualnie wygenerowanej gramatyki.</li>
-    </ul>
-    <h2>Zabezpieczenia programu:</h2>
-    <ul>
-      <li>Jeśli pole edycyjne liter alfabetu i pole edycyjne znaków specjalnych będą jednocześnie puste oraz
-        przełącznik liczb będzie ustawiony na "false", program wygeneruje macierz, ale nie nastąpi sprawdzenie
-        wartości; pojawi się błąd.</li>
-      <li>Program nie pozwoli wygenerować macierzy, kiedy liczba wierszy i/lub liczba kolumn będzie wynosiła zero.
+      <li>Alphabet letters and special characters.</li>
+      <li>
+        The number of rows or columns in the generated matrix 
+        (where: k> 0 && w> 0, where k - number of columns, w - number of rows).
       </li>
-      <li>Pola do wpisywania liter oraz znaków specjalnych są zabezpieczone przez technologię "Regex". Program nie
-        pozwoli wpisać do pola liter znaku specjalnego, cyfry bądź dużej litery (takowe są generowane przez
-        program). Analogicznie program do pola zawierającego znaki specjalne pozwoli wpisać wszysko za wyjątkiem
-        liter (w tym wielkich) oraz cyfr. Cyfry są generowane automatycznie przez program.</li>
-      <li>Jeśli w ciągu znaków podawanych przez użytkownika, znaki będa się powtarzać, program przy generowaniu
-        macierzy usunie zbędne znaki i zaktualizuje wartość pola w celu uniknięcia zakłamań pseudolosowości
-        generowania znaków w macierzy.</li>
-      <li>Ilość znaków specjalnych może być większa niż liczba kolumn macierzy (odpowiadająca ilości znaków w słowie),
-        lecz nie wpłynie to na generowaną macierz; będzie miało wpływ jednynie na ciąg znaków w walidatorze.</li>
+      <li>Whether the grammar can have numbers and / or uppercase letters.</li>
+      <li>
+        Number of special characters that one word can have, and if the number < 0, it means that the number of 
+        characters is seemingly unlimited (it can be limited only by the number of columns in the matrix).
+      </li>
     </ul>
-    <h2>Informacje dodatkowe:</h2>
+    <h2>Program security:</h2>
     <ul>
-      <li>Logika programu napisana w całości w czystym JavaScript zgodnym ze standardem EcmaScript6.</li>
-      <li>Do weryfikacji pól formularza użyłem konstruktora "RegExp", którzy zawiera metody umożliwiające pracę z
-        technologią "RegEx" w języku JavaScript (main.js, linia 137).</li>
-      <li>Do walidatora ciągu znaków alfabetu użyłem zaprojektowanego przeze mnie algorytmu rekurencyjnego (main.js,
-        linia 466).</li>
-      <li>Wszyskie dane które podlegają obróbce przez program są zapisywane i odczytywane z kopii objektu domyślnego w
-        celu hermetyzacji i ochrony danych domyślnych. Po przeładowaniu strony dane wprowadzone przez użytkownika są
-        usuwane. Do stworzenia identycznej kopii objektu użyłem konstroktora "JSON" i odpowiadajcym mu metodom.</li>
-      <li>Kod źródłowy oraz szczegółowy opis działania programu znajdziesz na moim profilu Github: <a target="_blank"
-          href="https://github.com/Milosz08">github.com/Milosz08</a>.</li>
+      <li>
+        If the edit field for alphabet letters and the edit field for special characters are both empty 
+        and the number switch is set to "false", the program will generate a matrix, but the value 
+        will not be checked; an error will appear.
+      </li>
+      <li>The program will not generate a matrix when the number of rows and/or the number of columns is zero.</li>
+      <li>
+        The fields for entering letters and special characters are secured by the "Regex" technology. The program will 
+        not allow you to enter a special character, number or capital letter into the letter field (these are generated 
+        by the program). Similarly, the program for a field containing special characters will allow you to enter everything 
+        except letters (including capital letters) and numbers. The numbers are generated automatically by the program.
+      </li>
+      <li>
+        If characters are repeated in a user-specified string, the program will remove unnecessary characters when 
+        generating the matrix and update the field value to avoid pseudo-randomness in matrix generation.
+      </li>
+      <li>
+        The number of special characters may be greater than the number of columns of the matrix (corresponding to 
+        the number of characters in a word), but this will not affect the generated matrix; it will only affect 
+        the string in the validator.
+      </li>
+    </ul>
+    <h2>Additional informations:</h2>
+    <ul>
+      <li>
+        The logic of the program was written entirely in pure JavaScript, compliant with the EcmaScript6 
+        standard with the use of objects.
+      </li>
+      <li>
+        To verify the form fields, I used the "RegExp" class, which contains methods 
+        for working with the "RegEx" technology in JavaScript.
+      </li>
+      <li>I used a recursive algorithm designed by me for the alphabet string validator.</li>
+      <li>
+        All data processed by the program are saved and read from the copy of the default object in order to encapsulate 
+        and protect the default data. After the page is reloaded, the data entered by the user is deleted. To create an 
+        identical copy of an object, I used the "JSON" constructor and the corresponding methods.
+      </li>
+      <li>
+        The source code and a detailed description of the program's operation can be found on my Github profile: 
+        <a target="_blank" href="https://github.com/Milosz08">github.com/Milosz08</a>.
+      </li>
     </ul>
   </div>
 
