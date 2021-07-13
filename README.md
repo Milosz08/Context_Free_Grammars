@@ -46,7 +46,7 @@ The user can decide whether the process is to run step by step (character by cha
 # License
 This program is on MIT licence. [Terms of use.](https://en.wikipedia.org/wiki/MIT_License)
 
-# Additional information
+# Additional informations
 * The logic of the program was written entirely in pure JavaScript, compliant with the EcmaScript6 standard with the use of objects.
 * To verify the form fields, I used the "RegExp" class, which contains methods for working with the "RegEx" technology in JavaScript.
 * I used a recursive algorithm designed by me for the alphabet string validator.
