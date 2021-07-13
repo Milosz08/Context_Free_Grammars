@@ -1,53 +1,53 @@
-# Gramatyki Bezkontekstowe
+# Context-free Grammars
 
-### Generator macierzy wypełnionych pseudolosowymi znakami gramatyki wybranej przez użytkownika oraz walidator nazwy wprowadzanej przez użytkownika, czy mieści się w zakresie gramatyki wygenerowanej na podstawie wartości w polu edycyjnym.
+### Matrix generator filled with pseudo-random characters of the user-selected grammar and validator of the user-entered name, whether it is within the range of the grammar generated from the value in the edit field.
 
-## Główne założenia:
-* Znaki gramatyki mogą składać się z liter, cyfr oraz znaków specjalnych (domyślnie program przydziela pełny alfabet `abcdefghijklmnopqrstuvwxyz` oraz wszystkie znaki specjalne `` `~!@#$%^&*()_-=+{}[];:'\"|,<.>/?``, a liczby i wielkie litery ustawione są na "true").
-* Pierwsza kolumna macierzy (pierwszy znak w wyrazie) nie może zawierać cyfry lub znaku specjalnego.
-* Ostatnia kolumna macierzy (ostatni znak w wyrazie) nie może zawierać znaku specjalnego.
+## Main assumptions:
+* Grammar signs can consist of letters, numbers and special characters (by default, the program assigns the full alphabet `abcdefghijklmnopqrstuvwxyz` and any special characters `` `~!@#$%^&*()_-=+{}[];:'\"|,<.>/?``, and numbers and capital letters are set to "true").
+* The first column of the matrix (the first character in a word) cannot contain a digit or a special character.
+* The last column of the matrix (the last character in a word) cannot contain a special character.
 
-# Macierz jako zilustrowanie przykładowych ciągów gramatyki
-Komputer z natury nie jest w stanie wygenerować uporządkowanego słowa, toteż rozwiązanie generowania słów oparłem na macierzy zapełnionej generowanymi pseudolosowo znakami, w której każdy wiersz to jedno słowo składające się z wygenerowanych znaków (generowanych na podstawie instrukcji podanych przez użytkownika).
+# Matrix as an illustration of sample grammar sequences
+By nature, a computer is not able to generate an ordered word, so I based my word generation solution on a matrix filled with pseudo-randomly generated characters, where each line is one word consisting of generated characters (generated on the basis of user-provided instructions).
 
 ![img1](https://user-images.githubusercontent.com/61552854/119264429-6e740680-bbe3-11eb-9dc3-cade0dfafb6d.PNG)
 
-Kolorem cyjanowy w tej macierzy zaznaczyłem jeden ciąg gramatyki (jedno słowo), które jest jednym wierszem macierzy. Ilość znaków w słowie zależna jest od ilości kolumn macierzy. Jak można zauważyć, wszyskie wiersze są zgodne z przyjętymi wyżej zasadami tworzenia ciągów gramatyki.
+With cyan in this matrix, I marked one grammar sequence (one word), which is one row of the matrix. The number of characters in a word depends on the number of columns in the matrix. As you can see, all lines follow the rules for creating sequences of grammar above.
 
-## Sterowanie
+## Control
 
 ![img2](https://user-images.githubusercontent.com/61552854/119259205-6a3cee80-bbcd-11eb-9c4e-d92f3192405e.png)
 
-### Użytkownik może edytować:
-* Litery alfabetu oraz znaki specjalne.
-* Liczbę wierszy lub kolumn w generowanej macierzy (przy czym: k > 0 && w > 0, gdzie k - liczba kolumn, w - liczba wierszy).
-* To, czy gramatyka może posiadać cyfry i/lub wielkie litery.
-* Ilość znaków specjalnych jakie może posiadać jedno słowo, przy czym jeśli ilość < 0, będzie oznaczać to że liczba znaków jest pozornie nieograniczona (ograniczać ją w macierzy może jedynie ilość kolumn).
+### User can edit:
+* Alphabet letters and special characters.
+* The number of rows or columns in the generated matrix (where: k> 0 && w> 0, where k - number of columns, w - number of rows).
+* Whether the grammar can have numbers and / or uppercase letters.
+* Number of special characters that one word can have, and if the number <0, it means that the number of characters is seemingly unlimited (it can be limited only by the number of columns in the matrix).
 
-# Walidator sprawdzający poprawność prowadzanego ciągu
+# Validating the entered string
 
 ![img3](https://user-images.githubusercontent.com/61552854/119265108-d4618d80-bbe5-11eb-8f9c-0abd5a704add.png)
 
-### Walidator wyposażyłem w dwie sekcje: 
-- Sekcję indykacyjną (kolor fioletowy) wskazującą aktualnie obsługiwany znak.
-- Sekcję wprowadzającą (kolor zielony) dzielącą się na:
-  - sterowanie procesem
-  - pole do wprowadzania i pole z otrzymywanym przetworzonym ciągiem
+### I equipped the validator with two sections:
+- Indication section (purple) indicating the currently handled character.
+- Introductory section (green), divided into:
+  - process control
+  - an input field and a field with the resulting processed string
 
-Użytkownik może zdecydować, czy proces ma przebiegać krok po kroku (znak po znaku), czy ma przebiec błyskawicznie (walidacja wszystkich znaków w tym samym czasie).
+The user can decide whether the process is to run step by step (character by character) or to run quickly (validation of all characters at the same time).
 
-# Zabezpieczenia programu
-* Jeśli pole edycyjne liter alfabetu i pole edycyjne znaków specjalnych będą jednocześnie puste oraz przełącznik liczb będzie ustawiony na "false", program wygeneruje macierz, ale nie nastąpi sprawdzenie wartości; pojawi się błąd.
-* Program nie pozwoli wygenerować macierzy, kiedy liczba wierszy i/lub liczba kolumn będzie wynosiła zero.
-* Pola do wpisywania liter oraz znaków specjalnych są zabezpieczone przez technologię "Regex". Program nie pozwoli wpisać do pola liter znaku specjalnego, cyfry bądź dużej litery (takowe są generowane przez program). Analogicznie program do pola zawierającego znaki specjalne pozwoli wpisać wszysko za wyjątkiem liter (w tym wielkich) oraz cyfr. Cyfry są generowane automatycznie przez program.
-* Jeśli w ciągu znaków podawanych przez użytkownika, znaki będa się powtarzać, program przy generowaniu macierzy usunie zbędne znaki i zaktualizuje wartość pola w celu uniknięcia zakłamań pseudolosowości generowania znaków w macierzy.
-* Ilość znaków specjalnych może być większa niż liczba kolumn macierzy (odpowiadająca ilości znaków w słowie), lecz nie wpłynie to na generowaną macierz; będzie miało wpływ jednynie na ciąg znaków w walidatorze.
+# Program security
+* If the edit field for alphabet letters and the edit field for special characters are both empty and the number switch is set to "false", the program will generate a matrix, but the value will not be checked; an error will appear.
+* The program will not generate a matrix when the number of rows and/or the number of columns is zero.
+* The fields for entering letters and special characters are secured by the "Regex" technology. The program will not allow you to enter a special character, number or capital letter into the letter field (these are generated by the program). Similarly, the program for a field containing special characters will allow you to enter everything except letters (including capital letters) and numbers. The numbers are generated automatically by the program.
+* If characters are repeated in a user-specified string, the program will remove unnecessary characters when generating the matrix and update the field value to avoid pseudo-randomness in matrix generation.
+* The number of special characters may be greater than the number of columns of the matrix (corresponding to the number of characters in a word), but this will not affect the generated matrix; it will only affect the string in the validator.
 
-# Licencja/License
-Program na licencji MIT. Jeśli nie znasz jej warunków, przeczytaj [ten artykuł](https://en.wikipedia.org/wiki/MIT_License)
+# License
+This program is on MIT licence. [Terms of use.](https://en.wikipedia.org/wiki/MIT_License)
 
-# Informacje dodatkowe
-* Logika programu napisana w całości w czystym JavaScript zgodnym ze standardem EcmaScript6 z użyciem obiektów.
-* Do weryfikacji pól formularza użyłem klasy "RegExp", którzy zawiera metody umożliwiające pracę z technologią "RegEx" w języku JavaScript.
-* Do walidatora ciągu znaków alfabetu użyłem zaprojektowanego przeze mnie algorytmu rekurencyjnego.
-* Wszyskie dane które podlegają obróbce przez program są zapisywane i odczytywane z kopii objektu domyślnego w celu hermetyzacji i ochrony danych domyślnych. Po przeładowaniu strony dane wprowadzone przez użytkownika są usuwane. Do stworzenia identycznej kopii objektu użyłem konstroktora "JSON" i odpowiadajcym mu metodom.
+# Additional information
+* The logic of the program was written entirely in pure JavaScript, compliant with the EcmaScript6 standard with the use of objects.
+* To verify the form fields, I used the "RegExp" class, which contains methods for working with the "RegEx" technology in JavaScript.
+* I used a recursive algorithm designed by me for the alphabet string validator.
+* All data processed by the program are saved and read from the copy of the default object in order to encapsulate and protect the default data. After the page is reloaded, the data entered by the user is deleted. To create an identical copy of an object, I used the "JSON" constructor and the corresponding methods.
