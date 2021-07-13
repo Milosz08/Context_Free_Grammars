@@ -1,25 +1,25 @@
 /*!
- * Generator macierzy zapełnionych znakami pseudolosowymi na podstawie gramatyki wybranej przez użytkownika.
- * Sprawdzanie, czy wpisane przez użytkownika słowo mieści się w zakresie podanej przez niego gramatyki.
+ * Matrix generator filled with pseudo-random characters of the user-selected grammar and validator of 
+ * the user-entered name, whether it is within the range of the grammar generated from the value in the edit field.
  *
- * Skrypty w całości zostały napisane w czystym JavaScript zgodny ze standardem EcmaScript6
- * przez Miłosz Gilga (https://github.com/Milosz08).
+ * The scripts were entirely written in pure JavaScript compatible with the EcmaScript6 standard
+ * by Miłosz Gilga (https://github.com/Milosz08).
  * 
  * ++++++++++++++++++++++++++++++++++++++++++(v1.0)++++++++++++++++++++++++++++++++++++++++++
- * możliwość zmiany liter, znaków specjalnych,
- * przełączniki dwustanowe: "czy wielkie litery", "czy liczby",
- * możliwość zmiany rozmiaru macierzy (ilość wierszy i kolumn),
- * możliwość wpisania dowolnego tekstu przez użytkownika,
- * możliwość ustawienia maksymalnej ilości znaków specjalnych w pojedyńczym słowie
- * sprawdzanie, czy wpisany tekst mieści się w zakresie znaków gramatyki i spełnia jej kryteria
+ * - the ability to change letters, special characters,
+ * - toggle switches: "whether capital letters", "or numbers",
+ * - the ability to change the size of the matrix (number of rows and columns),
+ * - the ability to enter any text by the user,
+ * - possibility to set the maximum number of special characters in a single word
+ * - checking if the typed text is within the grammar range and meets the grammar criteria
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  * 
- * Główne założenia:
- * - pierwsza kolumna macierzy (pierwszy znak słowa) nie może być cyfrą ani znakiem specjalnym,
- * - ostatnia kolumna macierzy (ostatni znak słowa) nie może kończyć się znakiem specjalnym,
+ * Main assumptions:
+ * - the first column of the matrix (the first character of a word) cannot be a digit or a special character,
+ * - the last column of the matrix (the last character of a word) cannot end with a special character,
  */
 
 inputsEvents();
 buttonsEvents();
-grammarArr(); //generator macierzy
-validateArr(); //walidator ciągu
+grammarArr(); //generate matrix
+validateArr(); //validate word

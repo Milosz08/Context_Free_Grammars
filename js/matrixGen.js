@@ -1,29 +1,29 @@
 /*!
- * Generator macierzy zapełnionych znakami pseudolosowymi na podstawie gramatyki wybranej przez użytkownika.
- * Sprawdzanie, czy wpisane przez użytkownika słowo mieści się w zakresie podanej przez niego gramatyki.
+ * Matrix generator filled with pseudo-random characters of the user-selected grammar and validator of 
+ * the user-entered name, whether it is within the range of the grammar generated from the value in the edit field.
  *
- * Skrypty w całości zostały napisane w czystym JavaScript zgodny ze standardem EcmaScript6
- * przez Miłosz Gilga (https://github.com/Milosz08).
+ * The scripts were entirely written in pure JavaScript compatible with the EcmaScript6 standard
+ * by Miłosz Gilga (https://github.com/Milosz08).
  * 
  * ++++++++++++++++++++++++++++++++++++++++++(v1.0)++++++++++++++++++++++++++++++++++++++++++
- * możliwość zmiany liter, znaków specjalnych,
- * przełączniki dwustanowe: "czy wielkie litery", "czy liczby",
- * możliwość zmiany rozmiaru macierzy (ilość wierszy i kolumn),
- * możliwość wpisania dowolnego tekstu przez użytkownika,
- * możliwość ustawienia maksymalnej ilości znaków specjalnych w pojedyńczym słowie
- * sprawdzanie, czy wpisany tekst mieści się w zakresie znaków gramatyki i spełnia jej kryteria
+ * - the ability to change letters, special characters,
+ * - toggle switches: "whether capital letters", "or numbers",
+ * - the ability to change the size of the matrix (number of rows and columns),
+ * - the ability to enter any text by the user,
+ * - possibility to set the maximum number of special characters in a single word
+ * - checking if the typed text is within the grammar range and meets the grammar criteria
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  * 
- * Główne założenia:
- * - pierwsza kolumna macierzy (pierwszy znak słowa) nie może być cyfrą ani znakiem specjalnym,
- * - ostatnia kolumna macierzy (ostatni znak słowa) nie może kończyć się znakiem specjalnym,
+ * Main assumptions:
+ * - the first column of the matrix (the first character of a word) cannot be a digit or a special character,
+ * - the last column of the matrix (the last character of a word) cannot end with a special character,
  */
 
-//generacja macierzy
+//matrix generation
 const grammarArr = () => {
   const LogicFuncObj = {
 
-    //sprawdzanie ilości argumentów i generowanie na jej podstawie łańcucha znaków gramatyki
+    //checking the number of arguments and generating a grammar string based on it
     getCharValue: (...args) => {
       const argsSwitch = (
         argsArr, retArr, pushNr,
@@ -50,11 +50,11 @@ const grammarArr = () => {
         } else {
           argsSwitch(args, retArr, '', '');
         }
-      } else throw new Error('Podano zbyt dużo argumentów!');
+      } else throw new Error('Too many arguments!');
       return retArr.join('');
     },
 
-    //generacja znaków (pseudolosowy) na podstawie długości łańcucha znaków
+    //character generation (pseudorandom) based on the string length
     randProd: (arrayS, arrayG) => {
       let sign;
       if (arrayS.length !== 0) {
@@ -63,47 +63,47 @@ const grammarArr = () => {
       } else arrayG.push('ε');
     },
 
-    //walidacja danych wprowadzonych przez użytkownika (jeśli błąd - zwraca null object - koniec działania)
+    //validation of data entered by the user (if error - returns null object - end of action)
     checkValues: () => {
       console.log(copyObj[2].value.toString());
       if (copyObj[0].value === '' && copyObj[1].value === '' && !copyBoolObj[0].value) {
         DOMelmObj.h2Err.style.color = 'orange';
         FunctObj.insert(
           '.userInt h2', 
-          'Uwaga! Wygenerowana macierz nie zawiera żadnych znaków!'
+          'Warning! The generated matrix does not contain any characters!'
         );
         return null;
       } else if (copyObj[2].value <= 0 || copyObj[3].value <= 0) {
         FunctObj.insert(
           '.userInt h2', 
-          '\nBłąd! Próba wygenerowania macierzy na podstawie liczby mniejszej lub równej zero!'
+          '\nError! Attempting to generate a matrix from a number less than or equal to zero!'
         );
         DOMelmObj.h2Err.style.color = 'red';
         return null;
       } else if(isNaN(parseFloat(copyObj[2].value)) || isNaN(parseFloat(copyObj[3].value))) {
         FunctObj.insert(
           '.userInt h2', 
-          '\nBłąd! Próba wygenerowania macierzy na podstawie pustych pól edycyjnych!'
+          '\nError! An attempt to generate a matrix on the basis of empty edit fields!'
         );
         DOMelmObj.h2Err.style.color = 'red';
         return null;
       }
     },
 
-    //wstawianie w wartość inputa poprawiony string (jeśli zawierał niepotrzebne znaki)
+    //inserting into the value of input a corrected string (if it contained unnecessary characters)
     inputInsert: () => {
       for (let i = 0; i < 2; i++) {
         copyObj[i].value = FunctObj.removeChars(copyObj[i].value, document.querySelectorAll('.rEgEx')[i]);
       }
     },
 
-    //usuwanie elementu DOM po każej akcji (kliku) w przycisk wywołujący stworzenie nowej macierzy
+    //removing the DOM element after each action (click) on the button that triggers the creation of a new matrix
     deleteDOM: () => {
       document.querySelector('.wrapper').children[1] != undefined
         ? document.querySelector('.matrix .wrapper ul').remove() : null;
     },
 
-    //sprawdzenie, czy wartość to znak, jeśli tak, dodawana do tablicy
+    //checking if value is a sign, if yes, added to the array
     checkSpecialChar: (sgn, stack) => {
       for (let k = 0; k < copyObj[1].value.length; k++) {
         if (sgn === copyObj[1].value[k]) {
@@ -112,28 +112,28 @@ const grammarArr = () => {
       }
     },
 
-    //renderowanie macierzy losowych wartości
+    //rendering a matrix of random values
     randGenerate: () => {
-      let matrix = []; //tablica pojedyńczego wiersza
-      let stack = []; //tablica znaków specjalnych
+      let matrix = []; //single-line array
+      let stack = []; //special characters table
       let flag = false;
       FunctObj.render('ul', '.matrix .wrapper');
       for (let i = 0; i < copyObj[2].value; i++) {
         FunctObj.render('li', '.matrix .wrapper ul');
         for (let j = 0; j < copyObj[3].value; j++) {
           switch (j) {
-            case 0: //pierwsza kolumna macierzy
+            case 0: //first matrix column
               LogicFuncObj.randProd(
                 LogicFuncObj.getCharValue('charS', 'charL'), 
                 matrix
               ); break;
-            case copyObj[3].value - 1: //ostatnia kolumna macierzy
+            case copyObj[3].value - 1: //last matrix column
               LogicFuncObj.randProd(
                 LogicFuncObj.getCharValue('charS', 'charL', 'number'), 
                 matrix
               ); break;
-            default: //reszta kolumn
-              !flag //jeśli false -> znaki specjalne, jeśli true -> bez znaków specjalnych
+            default: //rest of the columns
+              !flag //if false -> special characters, if true -> no special characters
                 ? LogicFuncObj.randProd(
                     LogicFuncObj.getCharValue('charS', 'charL', 'number', 'spec'), 
                     matrix
@@ -156,21 +156,21 @@ const grammarArr = () => {
           );
         }
         flag = false;
-        matrix = []; //zerowanie tablicy spanów
-        stack = []; //zerowanie tablicy znaków specjalnych
+        matrix = []; //resetting the sleep table
+        stack = []; //clearing an array of special characters
       }
     },
   }
 
-  //obsługa funkcji (generowanie i walidacja kontentu)
+  //function support (content generation and validation)
   const generateContent = () => {
-    LogicFuncObj.inputInsert(); //generacja struktury
-    LogicFuncObj.deleteDOM(); //usuwanie struktury
-    LogicFuncObj.checkValues(); //walidacja danych
-    LogicFuncObj.randGenerate(); //generacja kontentu
+    LogicFuncObj.inputInsert(); //structure generation
+    LogicFuncObj.deleteDOM(); //structure deletion
+    LogicFuncObj.checkValues(); //data validation
+    LogicFuncObj.randGenerate(); //content generation
   }
   DOMelmObj.genBtn.addEventListener('click', generateContent);
-  //zerowanie komunikatu o błędzie
+  //resetting the error message
   DOMelmObj.defVal.forEach(item => item.addEventListener('click', () => FunctObj.insert('.userInt h2', '')));
-  LogicFuncObj.randGenerate(); //generacja domyślnej macierzy przy każdym przeładowaniu strony
+  LogicFuncObj.randGenerate(); //generation of a default matrix each time the page is reloaded
 }

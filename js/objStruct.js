@@ -1,39 +1,39 @@
 /*!
- * Generator macierzy zapełnionych znakami pseudolosowymi na podstawie gramatyki wybranej przez użytkownika.
- * Sprawdzanie, czy wpisane przez użytkownika słowo mieści się w zakresie podanej przez niego gramatyki.
+ * Matrix generator filled with pseudo-random characters of the user-selected grammar and validator of 
+ * the user-entered name, whether it is within the range of the grammar generated from the value in the edit field.
  *
- * Skrypty w całości zostały napisane w czystym JavaScript zgodny ze standardem EcmaScript6
- * przez Miłosz Gilga (https://github.com/Milosz08).
+ * The scripts were entirely written in pure JavaScript compatible with the EcmaScript6 standard
+ * by Miłosz Gilga (https://github.com/Milosz08).
  * 
  * ++++++++++++++++++++++++++++++++++++++++++(v1.0)++++++++++++++++++++++++++++++++++++++++++
- * możliwość zmiany liter, znaków specjalnych,
- * przełączniki dwustanowe: "czy wielkie litery", "czy liczby",
- * możliwość zmiany rozmiaru macierzy (ilość wierszy i kolumn),
- * możliwość wpisania dowolnego tekstu przez użytkownika,
- * możliwość ustawienia maksymalnej ilości znaków specjalnych w pojedyńczym słowie
- * sprawdzanie, czy wpisany tekst mieści się w zakresie znaków gramatyki i spełnia jej kryteria
+ * - the ability to change letters, special characters,
+ * - toggle switches: "whether capital letters", "or numbers",
+ * - the ability to change the size of the matrix (number of rows and columns),
+ * - the ability to enter any text by the user,
+ * - possibility to set the maximum number of special characters in a single word
+ * - checking if the typed text is within the grammar range and meets the grammar criteria
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  * 
- * Główne założenia:
- * - pierwsza kolumna macierzy (pierwszy znak słowa) nie może być cyfrą ani znakiem specjalnym,
- * - ostatnia kolumna macierzy (ostatni znak słowa) nie może kończyć się znakiem specjalnym,
+ * Main assumptions:
+ * - the first column of the matrix (the first character of a word) cannot be a digit or a special character,
+ * - the last column of the matrix (the last character of a word) cannot end with a special character,
  */
 
 const letArrObj = [
-  { name: 'charsRegex', value: 'abcdefghijklmnopqrstuvwxyz' }, //litery
-  { name: 'specRegex', value: "`~!@#$%^&*()_-=+{}[];:'\\\"|,<.>/\?" }, //znaki specjalne
+  { name: 'charsRegex', value: 'abcdefghijklmnopqrstuvwxyz' }, //letters
+  { name: 'specRegex', value: "`~!@#$%^&*()_-=+{}[];:'\\\"|,<.>/\?" }, //special characters
 ];
 
 const boolArrObj = [
-  { name: 'ifNumb', value: true }, //czy cyfry
-  { name: 'ifBigLett', value: true }, //czy wielkie litery
+  { name: 'ifNumb', value: true }, //if numbers
+  { name: 'ifBigLett', value: true }, //if big letters
 ];
 
 const staticArrObj = [
-  { name: 'rows', value: 15 }, //liczba kolumn
-  { name: 'cols', value: 15 }, //liczba wierszy
-  { name: 'ifSpecialChars', value: -1 }, //ilość znaków specjalnych, które może mieć słowo
-  { name: 'exmpRegex', value: 'x?zadanie5' }, //przykładowa wartość
+  { name: 'rows', value: 15 }, //matrix rows
+  { name: 'cols', value: 15 }, //matrix columns
+  { name: 'ifSpecialChars', value: -1 }, //the number of special characters a word can have
+  { name: 'exmpRegex', value: 'x?zadanie5' }, //sample value
 ];
 
 const DOMelmObj = {
@@ -57,7 +57,7 @@ const DOMelmObj = {
 
 const FunctObj = {
 
-  //usuwa zduplikowane znaki i aktualizuje input
+  //removes duplicate characters and updates input
   removeChars: (string, input = '') => {
     string = string.split('').filter((item, pos, self) => {
       return self.indexOf(item) == pos;
@@ -66,7 +66,7 @@ const FunctObj = {
     return string;
   },
 
-  //kopiowanie zawartości objektu z danymi i przekazanie jej do zmiennej (okres życia - przeładowanie strony)
+  //copying the content of an object with data and passing it to a variable (lifetime - page reload)
   copyObjects: (flag = true) => {
     const objArr = [DOMelmObj.globalObj, boolArrObj];
     const copyObjArr = [];
@@ -74,20 +74,20 @@ const FunctObj = {
     return flag ? copyObjArr[0] : copyObjArr[1];
   },
 
-  //dynamiczne wstawianie tekstu do elementu drzewa DOM
+  //dynamically inserting text into a DOM tree element
   insert: (elm, content = '', i = 0) => {
     const ins = document.querySelectorAll(elm)[i];
     ins.textContent = content;
   },
 
-  //dynamiczne renderowanie wybranego elementu drzewa DOM
+  //dynamic rendering of the selected DOM tree element
   render: (type, parent, i = 0) => {
     const parentEl = document.querySelectorAll(parent)[i];
     const el = document.createElement(type);
     parentEl.appendChild(el);
   },
 
-  //dynamiczne wstawianie elementów span (zawartości wszystkich znaków) do kontenera
+  //dynamically inserting span elements (content of all characters) into the container
   createAlphabet: () => {
     const allSigns = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789`~!@#$%^&*()_-=+{}[];:'\"\\|,<.>/?ε";
     for (let i = 0; i < allSigns.length; i++) {
@@ -96,31 +96,31 @@ const FunctObj = {
     }
   },
 
-  //generacja cyfr (0-9)
+  //digit generation (0-9)
   generateNumber: () => {
     const nrArr = [];
     for (let i = 0; i < 10; i++) nrArr.push(i);
     return nrArr.toString().split(',').join('');
   },
 
-  //konwersja łańcucha stringów na tablicę i dodawanie pustego znaku
+  //converting a string of strings to an array and adding an empty character
   convert: str => {
     const arr = [];
     for (let i = 0; i < str.length; i++) arr.push(str[i]);
     return arr.join('');
   },
 
-  //wiadomość informująca o więszej ilości znaków specjalnych niż długość jednej linii macierzy (słowa)
+  //message informing about more special characters than the length of one matrix line (words)
   validateSpecCount: () => {
     if (copyObj[4].value > copyObj[3].value) {
       DOMelmObj.h2Err.style.color = 'orange';
       FunctObj.insert(
         '.userInt h2',
-        'Uwaga! Macierz wygeneruje się poprawnie, lecz wartość wpłynie jedynie na większą ilość znaków specjalnych w walidatorze.'
+        'Warning! The matrix will generate correctly, but the value will only affect more special characters in the validator.'
       );
     }
   },
 };
 
-const copyObj = FunctObj.copyObjects(); //kopia obiektu (string)
-const copyBoolObj = FunctObj.copyObjects(false); //kopia obiektu (boolean)
+const copyObj = FunctObj.copyObjects(); //object copy (string)
+const copyBoolObj = FunctObj.copyObjects(false); //object copy (boolean)

@@ -1,34 +1,34 @@
 /*!
- * Generator macierzy zapełnionych znakami pseudolosowymi na podstawie gramatyki wybranej przez użytkownika.
- * Sprawdzanie, czy wpisane przez użytkownika słowo mieści się w zakresie podanej przez niego gramatyki.
+ * Matrix generator filled with pseudo-random characters of the user-selected grammar and validator of 
+ * the user-entered name, whether it is within the range of the grammar generated from the value in the edit field.
  *
- * Skrypty w całości zostały napisane w czystym JavaScript zgodny ze standardem EcmaScript6
- * przez Miłosz Gilga (https://github.com/Milosz08).
+ * The scripts were entirely written in pure JavaScript compatible with the EcmaScript6 standard
+ * by Miłosz Gilga (https://github.com/Milosz08).
  * 
  * ++++++++++++++++++++++++++++++++++++++++++(v1.0)++++++++++++++++++++++++++++++++++++++++++
- * możliwość zmiany liter, znaków specjalnych,
- * przełączniki dwustanowe: "czy wielkie litery", "czy liczby",
- * możliwość zmiany rozmiaru macierzy (ilość wierszy i kolumn),
- * możliwość wpisania dowolnego tekstu przez użytkownika,
- * możliwość ustawienia maksymalnej ilości znaków specjalnych w pojedyńczym słowie
- * sprawdzanie, czy wpisany tekst mieści się w zakresie znaków gramatyki i spełnia jej kryteria
+ * - the ability to change letters, special characters,
+ * - toggle switches: "whether capital letters", "or numbers",
+ * - the ability to change the size of the matrix (number of rows and columns),
+ * - the ability to enter any text by the user,
+ * - possibility to set the maximum number of special characters in a single word
+ * - checking if the typed text is within the grammar range and meets the grammar criteria
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  * 
- * Główne założenia:
- * - pierwsza kolumna macierzy (pierwszy znak słowa) nie może być cyfrą ani znakiem specjalnym,
- * - ostatnia kolumna macierzy (ostatni znak słowa) nie może kończyć się znakiem specjalnym,
+ * Main assumptions:
+ * - the first column of the matrix (the first character of a word) cannot be a digit or a special character,
+ * - the last column of the matrix (the last character of a word) cannot end with a special character,
  */
 
 const inputsEvents = () => {
 
-  //wstawianie domyślnych wartości w pole inputów
+  //inserting default values into the input field
   const defaultInputs = labels => {
     Object.keys(copyObj).forEach((key, j) => {
       labels[j].children[0].value = copyObj[j].value;
     });
   }
 
-  //blokada inputu przeciw wprowadzaniu znaków innych niż założono (na podstawie rEgExp);
+  //input blocking against entering characters other than assumed (based on rEgExp);
   const checkInput = (el, e) => {
     let exprs;
     el.dataset.id !== '1' ? exprs = '[^a-zA-Z0-9]' : exprs = "[a-z]";
@@ -36,7 +36,7 @@ const inputsEvents = () => {
     !rEgExpValue.test(e.key) && e.key !== 'Backspace' ? e.preventDefault() : null;
   }
 
-  //wstawianie aktualnej wartości inputa w pola wartości gramatyki (V1, V2, V3, V4)
+  //inserting the current input value into the grammar value fields (V1, V2, V3, V4)
   const grammaInfos = (i, ev) => {
     DOMelmObj.inputGraph[i].innerHTML = FunctObj.removeChars(ev.target.value);
     if (i === 0) {
@@ -44,19 +44,19 @@ const inputsEvents = () => {
     }
   }
 
-  //wstawianie wartości pisanych przez użytkownika z inputu do kopii objektu
+  //inserting user-supplied values from input into a copy of the object
   const inputsListener = (i, e) => {
     if (e.target.value !== '' && i !== 4 && i !== 5) {
       DOMelmObj.boolBtns[1].disabled = false;
-      DOMelmObj.boolBtns[1].textContent = 'Włączone';
+      DOMelmObj.boolBtns[1].textContent = 'Active';
       copyBoolObj[1].value = true;
     }
     if (i < 2) {
-      copyObj[i].value = e.target.value; //litery i zn specjalne
-      grammaInfos(i, e); //tylko dla inp litery i znaki specjalne
+      copyObj[i].value = e.target.value; //letters and special charaters
+      grammaInfos(i, e); //only for input letters and special characters
     }
-    i > 1 && i < 5 ? copyObj[i].value = parseInt(e.target.value) : null; //cyfry
-    i === 5 ? copyObj[i].value = e.target.value : null; //pole wprowadzania słowa do sprawdzenia
+    i > 1 && i < 5 ? copyObj[i].value = parseInt(e.target.value) : null; //numbers
+    i === 5 ? copyObj[i].value = e.target.value : null; //input field for the word to be checked
     FunctObj.validateSpecCount();
   }
 
