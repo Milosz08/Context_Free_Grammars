@@ -16,7 +16,7 @@ With cyan in this matrix, I marked one grammar sequence (one word), which is one
 
 ## Control
 
-![img2](https://user-images.githubusercontent.com/61552854/119259205-6a3cee80-bbcd-11eb-9c4e-d92f3192405e.png)
+![img2en](https://user-images.githubusercontent.com/61552854/125452518-f5a45316-723e-4cfb-801c-d442a9355f1e.png)
 
 ### User can edit:
 * Alphabet letters and special characters.
@@ -26,7 +26,7 @@ With cyan in this matrix, I marked one grammar sequence (one word), which is one
 
 # Validating the entered string
 
-![img3](https://user-images.githubusercontent.com/61552854/119265108-d4618d80-bbe5-11eb-8f9c-0abd5a704add.png)
+![img3en](https://user-images.githubusercontent.com/61552854/125452479-7f738cb6-2554-44ee-b5a9-c0ed9d9df230.PNG)
 
 ### I equipped the validator with two sections:
 - Indication section (purple) indicating the currently handled character.
