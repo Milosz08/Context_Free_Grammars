@@ -1,14 +1,5 @@
 # Context-free Grammars
 
-[![Milosz08 - Context-Free-Grammars](https://img.shields.io/static/v1?label=Milosz08&message=Context-Free-Grammars&color=blue&logo=github)](https://github.com/Milosz08/Context-Free-Grammars)
-[![stars - Context-Free-Grammars](https://img.shields.io/github/stars/Milosz08/Context-Free-Grammars?style=social)](https://github.com/Milosz08/Context-Free-Grammars)
-[![forks - Context-Free-Grammars](https://img.shields.io/github/forks/Milosz08/Context-Free-Grammars?style=social)](https://github.com/Milosz08/Context-Free-Grammars)
-
-[![GitHub tag](https://img.shields.io/github/tag/Milosz08/Context-Free-Grammars?include_prereleases=&sort=semver)](https://github.com/Milosz08/Context-Free-Grammars/releases/)
-[![License](https://img.shields.io/badge/License-MIT-blue)](#license)
-
-[![View site - GH Pages](https://img.shields.io/badge/View_site-GH_Pages-2ea44f?style=for-the-badge)](https://milosz08.github.io/Context-Free-Grammars/)
-
 ### Matrix generator filled with pseudo-random characters of the user-selected grammar and validator of the user-entered name, whether it is within the range of the grammar generated from the value in the edit field.
 
 ## Main assumptions:
